@@ -408,15 +408,17 @@ public final class NVActivityIndicatorView: UIView {
 
     /// Default fade out animation.
     public static var DEFAULT_FADE_OUT_ANIMATION: FadeOutAnimation = { (view, complete) in
-        UIView.animate(withDuration: 0.25,
-                       animations: {
-                        view.alpha = 0
-        },
-                       completion: { completed in
-                        if completed {
-                            complete()
-                        }
-        })
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.25,
+                           animations: {
+                            view.alpha = 0
+                           },
+                           completion: { completed in
+                            if completed {
+                                complete()
+                            }
+                           })
+        }
     }
     // swiftlint:enable identifier_name
 
