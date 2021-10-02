@@ -320,19 +320,20 @@ public final class NVActivityIndicatorPresenter {
             keyWindow.addConstraints([leadingConstraint, trailingConstraint, topConstraint, bottomConstraint])
             }())
     }
-
+    
     fileprivate func hide(_ fadeOutAnimation: FadeOutAnimation?) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             for window in UIApplication.shared.windows {
                 for item in window.subviews
-                    where item.restorationIdentifier == restorationIdentifier {
-                        if let fadeOutAnimation = fadeOutAnimation {
-                            fadeOutAnimation(item) {
-                                item.removeFromSuperview()
-                            }
-                        } else {
+                where item.restorationIdentifier == self.restorationIdentifier {
+                    if let fadeOutAnimation = fadeOutAnimation {
+                        fadeOutAnimation(item) {
                             item.removeFromSuperview()
                         }
+                    } else {
+                        item.removeFromSuperview()
+                    }
                 }
             }
         }
